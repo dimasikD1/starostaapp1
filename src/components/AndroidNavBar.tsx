@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import {
   Home,
   Calendar,
@@ -71,14 +72,19 @@ export const AndroidNavBar: React.FC<AndroidNavBarProps> = ({
               onClick={() => onTabChange(tab.id)}
               className="flex flex-col items-center justify-center py-1 px-1 transition-all group relative active:scale-95"
             >
-              <div
-                className={`relative px-3 py-1 rounded-2xl transition-all duration-300 ${
-                  isActive
-                    ? 'bg-sky-500/20 text-sky-400 font-bold scale-105'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`} />
+              <div className="relative px-3 py-1 rounded-2xl flex items-center justify-center">
+                {isActive && (
+                  <motion.div
+                    layoutId="navBarSlider"
+                    className="absolute inset-0 bg-sky-500/20 border border-sky-500/40 rounded-2xl -z-10 shadow-sm"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
+                )}
+                <Icon
+                  className={`w-5 h-5 transition-transform duration-200 ${
+                    isActive ? 'text-sky-400 stroke-[2.5] scale-110' : 'text-slate-400 group-hover:text-slate-200 stroke-2'
+                  }`}
+                />
 
                 {tab.badge !== undefined && (
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center shadow-sm">

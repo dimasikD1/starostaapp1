@@ -37,11 +37,31 @@ import { AIAssistantModal } from './components/AIAssistantModal';
 import { DownloadApkModal } from './components/DownloadApkModal';
 import { RucScheduleSyncModal } from './components/RucScheduleSyncModal';
 import { usePWA } from './hooks/usePWA';
-import { WifiOff, Smartphone, Monitor, CheckCircle, Bell, Download } from 'lucide-react';
+import { WifiOff, Smartphone, Monitor, CheckCircle, Bell, Download, SlidersHorizontal } from 'lucide-react';
 
 export default function App() {
   // Navigation
   const [currentTab, setCurrentTab] = useState<TabType>('main');
+
+  // Interface scale slider (ползунок масштаба/размера)
+  const [appScale, setAppScale] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('starosta_app_scale');
+      return saved ? Number(saved) : 90;
+    } catch {
+      return 90;
+    }
+  });
+
+  const handleScaleChange = (val: number) => {
+    const clamped = Math.max(70, Math.min(115, val));
+    setAppScale(clamped);
+    try {
+      localStorage.setItem('starosta_app_scale', String(clamped));
+    } catch {
+      // ignore
+    }
+  };
 
   // State
   const [users, setUsers] = useState<UserProfile[]>(() => storage.getUsers());
@@ -319,6 +339,23 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Interactive Scale Slider (Ползунок масштаба) */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-800/90 rounded-lg border border-slate-700/80">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-sky-400" />
+            <span className="text-[11px] text-slate-300 font-medium">Ползунок:</span>
+            <input
+              type="range"
+              min="70"
+              max="115"
+              step="5"
+              value={appScale}
+              onChange={(e) => handleScaleChange(Number(e.target.value))}
+              className="w-20 accent-sky-500 cursor-pointer h-1.5 bg-slate-700 rounded-lg"
+              title="Регулировка размера интерфейса"
+            />
+            <span className="font-mono text-sky-400 font-bold text-[11px] min-w-[32px] text-right">{appScale}%</span>
+          </div>
+
           <button
             onClick={() => setIsPhoneFrame(!isPhoneFrame)}
             className="flex items-center gap-1.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-sky-400 rounded-lg text-xs font-semibold border border-slate-700 transition"
@@ -368,12 +405,15 @@ export default function App() {
       )}
 
       {/* Main Container */}
-      <main className="w-full flex-1 flex justify-center items-start sm:p-4 md:p-6 overflow-x-hidden">
+      <main className="w-full flex-1 flex justify-center items-start sm:p-2 md:p-3 overflow-x-hidden">
         <div
-          className={`w-full transition-all duration-300 flex flex-col bg-slate-950 ${
+          style={{
+            maxWidth: isPhoneFrame ? `${Math.round(412 * (appScale / 100))}px` : `${Math.round(672 * (appScale / 100))}px`,
+          }}
+          className={`w-full transition-all duration-150 flex flex-col bg-slate-950 ${
             isPhoneFrame
-              ? 'max-w-[440px] min-h-[92vh] sm:rounded-[42px] sm:ring-8 sm:ring-slate-800 sm:border-4 sm:border-slate-900 shadow-2xl relative overflow-hidden'
-              : 'max-w-4xl min-h-screen'
+              ? 'min-h-[90vh] sm:rounded-3xl sm:border border-slate-800 shadow-2xl relative overflow-hidden'
+              : 'min-h-screen'
           }`}
         >
           {/* Android Speaker Grill on top of bezel */}
@@ -393,6 +433,8 @@ export default function App() {
             isPhoneFrame={isPhoneFrame}
             onTogglePhoneFrame={() => setIsPhoneFrame(!isPhoneFrame)}
             onOpenDownloadApk={() => setIsDownloadApkOpen(true)}
+            appScale={appScale}
+            onScaleChange={handleScaleChange}
           />
 
           {/* Active Tab Screen Content with Smooth Transitions */}
