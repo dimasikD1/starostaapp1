@@ -1,0 +1,6 @@
+{
+  "name": "Староста 24 | Android Mini App",
+  "description": "Приложение для старост и академических групп: профили студентов, электронный журнал посещаемости, расписание пар, домашние задания, чат объявлений и старостат.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

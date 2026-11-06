@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+  </defs>
+  <!-- Background squircle -->
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  <!-- Inner circular badge -->
+  <circle cx="256" cy="256" r="190" fill="#ffffff" fill-opacity="0.1" />
+  <!-- Graduation / Starosta Academic Cap -->
+  <path d="M256 120 L390 190 L256 260 L122 190 Z" fill="#ffffff" />
+  <path d="M165 212 V285 C165 330 347 330 347 285 V212 L256 260 Z" fill="#e0f2fe" opacity="0.9" />
+  <!-- Tassel -->
+  <path d="M375 198 V295" stroke="#facc15" stroke-width="12" stroke-linecap="round" />
+  <circle cx="375" cy="305" r="14" fill="#facc15" />
+  <!-- "24" Badge -->
+  <rect x="186" y="340" width="140" height="58" rx="29" fill="url(#grad2)" stroke="#ffffff" stroke-width="6" />
+  <text x="256" y="380" font-family="Arial, sans-serif" font-weight="900" font-size="34" fill="#ffffff" text-anchor="middle" letter-spacing="1">24</text>
+</svg>
